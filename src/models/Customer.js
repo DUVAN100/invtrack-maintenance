@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const CustomerSchema = new Schema({
     firstName: { type: String, required: true },
@@ -16,4 +16,4 @@ const CustomerSchema = new Schema({
     },
 }, { timestamps: true });
 
-export default model("Customer", CustomerSchema);
+export default models.Customer || model("Customer", CustomerSchema);

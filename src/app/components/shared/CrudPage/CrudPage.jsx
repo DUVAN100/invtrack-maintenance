@@ -21,25 +21,35 @@ export default function CrudPage({
     columns,
     FormComponent
 }) {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-
+    
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
     const [openDialogCreate, setOpenDialogCreate] = useState(false);
+    const [formData, setFormData] = useState(() => ({ ...model }));
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
-
-    const [page, setPage] = useState(0); 
+    const [loading, setLoading] = useState(false);
     const [pageSize, setPageSize] = useState(5);
     const [rowCount, setRowCount] = useState(0);
-
-    const [formData, setFormData] = useState(() => ({ ...model }));
+    const [data, setData] = useState([]);
+    const [page, setPage] = useState(0); 
+    // console.log("formData", formData);
 
     const handleChange = (e) => {
-        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        if (name.includes(".")) {
+            const [parent, child] = name.split(".");
+            setFormData((prev) => ({
+                ...prev,
+                [parent]: {
+                    ...prev[parent],
+                    [child]: value,
+                },
+            }));
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
     };
-    const handleDirectChange = (name, value) => {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+
+    const handleDirectChange = (name, value) => setFormData((prev) => ({ ...prev, [name]: value }));
 
     const handleBlur = (e) => {
         if (e.target.name === "code") {

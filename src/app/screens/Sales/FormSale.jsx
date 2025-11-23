@@ -21,7 +21,7 @@ export const FormSale = ({ formData, isEdit, handleChange, handleDirectChange })
     const [loading, setLoading] = useState(true);
     const [editingIndex, setEditingIndex] = useState(null);
     const [tempProduct, setTempProduct] = useState({ product: "", quantity: 1, price: 0, subtotal: 0 });
-
+    console.log("customers", customers);
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
@@ -130,8 +130,6 @@ export const FormSale = ({ formData, isEdit, handleChange, handleDirectChange })
     return (
         <Box sx={{ maxWidth: 1000, mx: "auto", mt: 4 }}>
             <Typography variant="h6">Registrar Venta</Typography>
-
-            {/* Cliente */}
             <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
                 <TextField
                     select
@@ -142,9 +140,7 @@ export const FormSale = ({ formData, isEdit, handleChange, handleDirectChange })
                     onChange={handleChange}
                     fullWidth
                 >
-                    {customers.map(c => (
-                        <MenuItem key={c._id} value={c._id}>{c.name}</MenuItem>
-                    ))}
+                    {customers.map(c => <MenuItem key={c._id} value={c._id}>{c.firstName}</MenuItem>)}
                 </TextField>
 
                 <TextField
@@ -157,7 +153,6 @@ export const FormSale = ({ formData, isEdit, handleChange, handleDirectChange })
                 />
             </Box>
 
-            {/* Tabla productos */}
             <Table>
                 <TableHead>
                     <TableRow>
@@ -184,7 +179,6 @@ export const FormSale = ({ formData, isEdit, handleChange, handleDirectChange })
                 </TableBody>
             </Table>
 
-            {/* Formulario temporal */}
             <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
                 <TextField
                     select

@@ -13,7 +13,7 @@ export async function GET(req) {
 
         const [sales, total] = await Promise.all([
             Sale.find()
-                .populate("client", "name")
+                .populate("customer", "firstName lastName") // ← corregido
                 .populate("products.product", "name")
                 .skip(skip)
                 .limit(limit)
@@ -48,15 +48,11 @@ export async function POST(req) {
             ...data,
             total,
         });
-
-        // 🔥 ACTUALIZACIÓN DE STOCK - RESTAR
         for (const item of data.products) {
             const product = await Product.findById(item.product);
 
             if (product) {
                 product.stock -= item.quantity;
-
-                // si el precio de venta actual es mayor, actualizarlo
                 if (item.price > product.salePrice) {
                     product.salePrice = item.price;
                 }
@@ -94,16 +90,14 @@ export async function PUT(req) {
             return NextResponse.json({ error: "Venta no encontrada" }, { status: 404 });
         }
 
-        // 🔄 REVERTIR STOCK DE LA VENTA ANTERIOR
         for (const oldItem of oldSale.products) {
             const product = await Product.findById(oldItem.product);
             if (product) {
-                product.stock += oldItem.quantity; // devolver al inventario
+                product.stock += oldItem.quantity;
                 await product.save();
             }
         }
 
-        // 🔥 APLICAR STOCK DE LA NUEVA VENTA
         for (const newItem of data.products) {
             const product = await Product.findById(newItem.product);
             if (product) {
@@ -118,7 +112,7 @@ export async function PUT(req) {
         }
 
         const updated = await Sale.findByIdAndUpdate(_id, data, { new: true })
-            .populate("client", "name")
+            .populate("customer", "firstName lastName email") // ✔️ FIX
             .populate("products.product", "name");
 
         return NextResponse.json(updated, { status: 200 });

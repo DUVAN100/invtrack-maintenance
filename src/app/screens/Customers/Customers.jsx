@@ -1,15 +1,21 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import CrudPage from "@/app/components/shared/CrudPage/CrudPage";
-import { FormProduct } from "@/app/screens/Products/FormProduct";
+import { FormCustomer } from "@/app/screens/Customers/FormCustomer"; // TU FORMULARIO
 
 const model = {
-    code: "",
-    name: "",
-    description: "",
-    purchasePrice: "",
-    salePrice: "",
-    category: "",
-    stock: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    documentType: "",
+    documentNumber: "",
+    address: {
+        street: "",
+        city: "",
+        state: "",
+        country: "",
+        postalCode: "",
+    },
 };
 
 const columns = ({ onEdit, onDelete }) => [
@@ -40,14 +46,14 @@ const columns = ({ onEdit, onDelete }) => [
     },
 ];
 
-export default function Products() {
+export default function Customers() {
     return (
         <CrudPage
-            title="Gestión de Productos"
-            apiEndpoint="/api/products"
+            title="Gestión de Clientes"
+            apiEndpoint="/api/customers"
             model={model}
             columns={columns}
-            FormComponent={FormProduct}
+            FormComponent={FormCustomer}
         />
     );
 }
