@@ -17,21 +17,20 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
-import { MdInventory, MdPeople } from 'react-icons/md';
+import { MdInventory, MdPeople, MdHome } from 'react-icons/md';
 import { FaSellcast } from "react-icons/fa6";
-import { FaUserTie } from "react-icons/fa";
+import { FaUserTie, FaDollarSign } from "react-icons/fa";
 import { TiChevronRight, TiChevronLeft } from "react-icons/ti";
-import { LiaUsersSolid } from "react-icons/lia";
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { CiMenuBurger } from "react-icons/ci";
 import Providers from '@/app/screens/Providers/Providers';
 import Purchases from '../screens/Purchases/Purchases';
 import Products from '@/app/screens/Products/Products';
-import Customers from '../screens/Customers/Customers';
 import Users from '@/app/screens/Users/Users';
 import Home from '@/app/screens/Home/Home';
 import Sales from '../screens/Sales/Sales';
 import AccountMenu from '@/app/components/AccountMenu/AccountMenu';
+import styles from '@/styles/Home.module.css';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -78,6 +77,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    backgroundColor: '#1976d2',
+    color: '#fff',
+    '& .MuiIconButton-root': {
+        color: '#fff',
+    },
 }));
 
 export default function Dashboard() {
@@ -103,8 +107,6 @@ export default function Dashboard() {
                 return <Purchases />;
             case "sales":
                 return <Sales />;
-            case "customers":
-                return <Customers />;
             default:
                 return <Home />;
         }
@@ -128,7 +130,7 @@ export default function Dashboard() {
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' },
+                    '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', borderRight: '1px solid #1976d2' },
                 }}
                 variant="persistent"
                 anchor="left"
@@ -142,13 +144,12 @@ export default function Dashboard() {
                 <Divider />
                 <List>
                     {[
-                        { text: "Inicio", icon: <TiChevronRight />, key: "Inicio" },
-                        { text: "Compras", icon: <BiSolidPurchaseTag />, key: "purchases" },
-                        { text: "Clientes", icon: <LiaUsersSolid />, key: "customers" },
-                        { text: "Ventas", icon: <FaSellcast />, key: "sales" },
-                        { text: "Usuarios", icon: <MdPeople />, key: "users" },
+                        { text: "Inicio", icon: <MdHome size={16} />, key: "Inicio" },
                         { text: "Productos", icon: <MdInventory />, key: "products" },
+                        { text: "Usuarios", icon: <MdPeople />, key: "users" },
                         { text: "Proveedores", icon: <FaUserTie />, key: "providers" },
+                        { text: "Compras", icon: <BiSolidPurchaseTag />, key: "purchases" },
+                        { text: "Ventas", icon: <FaDollarSign size={14} />, key: "sales" },
                     ].map((item) => (
                         <ListItem key={item.key} disablePadding>
                             <ListItemButton onClick={() => setSelectedPage(item.key)}>
