@@ -21,35 +21,25 @@ export default function CrudPage({
     columns,
     FormComponent
 }) {
-    
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
     const [openDialogCreate, setOpenDialogCreate] = useState(false);
-    const [formData, setFormData] = useState(() => ({ ...model }));
     const [openDialogEdit, setOpenDialogEdit] = useState(false);
-    const [loading, setLoading] = useState(false);
+
+    const [page, setPage] = useState(0); 
     const [pageSize, setPageSize] = useState(5);
     const [rowCount, setRowCount] = useState(0);
-    const [data, setData] = useState([]);
-    const [page, setPage] = useState(0); 
-    // console.log("formData", formData);
+
+    const [formData, setFormData] = useState(() => ({ ...model }));
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name.includes(".")) {
-            const [parent, child] = name.split(".");
-            setFormData((prev) => ({
-                ...prev,
-                [parent]: {
-                    ...prev[parent],
-                    [child]: value,
-                },
-            }));
-        } else {
-            setFormData((prev) => ({ ...prev, [name]: value }));
-        }
+        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-
-    const handleDirectChange = (name, value) => setFormData((prev) => ({ ...prev, [name]: value }));
+    const handleDirectChange = (name, value) => {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    }
 
     const handleBlur = (e) => {
         if (e.target.name === "code") {
@@ -181,8 +171,29 @@ export default function CrudPage({
         setLoading(false);
     };
 
+    const [headerHeight, setHeaderHeight] = useState(0);
+
+    useEffect(() => {
+        const measure = () => {
+            const toolbar = document.querySelector(".MuiToolbar-root");
+            if (toolbar) {
+                const h = Math.ceil(toolbar.getBoundingClientRect().height);
+                setHeaderHeight(h);
+            }
+        };
+        measure();
+        window.addEventListener("resize", measure);
+        // listen to potential layout changes (e.g., drawer open/close)
+        const observer = new MutationObserver(measure);
+        observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+        return () => {
+            window.removeEventListener("resize", measure);
+            observer.disconnect();
+        };
+    }, []);
+
     return (
-        <Box sx={{ mx: "auto" }}>
+        <Box sx={{ mx: "auto", paddingTop: `${headerHeight}px` }}>
             <Card>
                 <CardContent>
                     <Box display="flex" alignItems="center" justifyContent="space-between">
