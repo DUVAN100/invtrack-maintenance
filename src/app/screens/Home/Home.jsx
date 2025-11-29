@@ -28,10 +28,10 @@ export default function DashboardPage() {
 
     return (
         <Grid
-            container
-            spacing={3}
-            sx={{width: "auto", margin: 0, padding: 3 }}
-            flexDirection='column'
+              container
+              spacing={3}
+              sx={{ width: "auto", margin: 0, padding: 3, paddingTop: 10, paddingBottom: 24 }}
+              flexDirection='column'
         >
             {/* --- Gráfico Ventas --- */}
             <Grid item xs={6} md={6}>
