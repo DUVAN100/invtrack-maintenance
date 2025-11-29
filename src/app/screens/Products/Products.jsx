@@ -13,28 +13,20 @@ const model = {
 };
 
 const columns = ({ onEdit, onDelete }) => [
-    { field: "firstName", headerName: "Nombre", flex: 1 },
-    { field: "lastName", headerName: "Apellido", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
-    { field: "phone", headerName: "Teléfono", width: 150 },
-    { field: "documentType", headerName: "Tipo Doc", width: 150 },
-    { field: "documentNumber", headerName: "Número Doc", width: 150 },
+    { field: "code", headerName: "Code", width: 150 },
+    { field: "name", headerName: "Nombre", flex: 1 },
+    { field: "category", headerName: "Categoría", flex: 1 },
+    { field: "purchasePrice", headerName: "Precio Compra", width: 150 },
+    { field: "salePrice", headerName: "Precio Venta", width: 150 },
+    { field: "stock", headerName: "Stock", width: 150 },
     {
         field: "actions",
         headerName: "Acciones",
-        width: 180,
+        width: 200,
         renderCell: (params) => (
             <>
-                <MdEdit
-                    style={{ cursor: "pointer", marginRight: 10 }}
-                    size={20}
-                    onClick={() => onEdit(params.row)}
-                />
-                <MdDelete
-                    style={{ cursor: "pointer", color: "red" }}
-                    size={20}
-                    onClick={() => onDelete(params.row)}
-                />
+                <MdEdit  style={{ cursor: "pointer", marginRight: 10 }} size={20} onClick={() => onEdit(params.row)} />
+                <MdDelete style={{ cursor: "pointer", color: "red" }} size={20} onClick={() => onDelete(params.row)} />
             </>
         ),
     },
